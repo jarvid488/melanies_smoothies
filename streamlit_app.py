@@ -1,6 +1,7 @@
 import streamlit as st
 #from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
+import requests
 helpful_links = [
     "https://docs.streamlit.io",
     "https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit",
@@ -37,6 +38,8 @@ if ingredients_list:
     ingredients_string=''
     for fruit_chosen in ingredients_list:
         ingredients_string+= fruit_chosen+' '
+        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+        st_df=st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
     st.write(ingredients_string)
     my_insert_stmt = """ insert into smoothies.public.orders(ingredients,name_on_order)
             values ('""" + ingredients_string + """','""" +name_on_order+ """')"""
@@ -48,7 +51,6 @@ if ingredients_list:
 
 #my_dataframe1 = session.table("smoothies.public.orders").filter(col("ORDER_FILLED")==0).collect()
 #editable_df = st.data_editor(my_dataframe1)
-import requests
-smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+
+
 #st.text(smoothiefroot_response.json())
-st_df=st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
