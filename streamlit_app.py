@@ -48,3 +48,6 @@ if ingredients_list:
 
 #my_dataframe1 = session.table("smoothies.public.orders").filter(col("ORDER_FILLED")==0).collect()
 #editable_df = st.data_editor(my_dataframe1)
+import requests
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+st.text(smoothiefroot_response.json())
